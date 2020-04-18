@@ -48,7 +48,7 @@ impl TokenSink for &mut LinkQueue {
 
 pub fn get_links(url: &Url, page: String) -> Vec<Url> {
     let mut domain_url = url.clone();
-    domain_url.set_path("path");
+    domain_url.set_path("");
     domain_url.set_query(None);
 
     let mut queue = LinkQueue::default();
@@ -106,8 +106,8 @@ async fn crawl(pages: Vec<Url>, current: u8, max: u8) -> CrawlResult {
     Ok(())
 }
 
-fn main() {
+fn main() -> CrawlResult {
     task::block_on(async {
-        box_crawl(vec![Url::parse("https://www.rust-lang.org").unwrap()], 1, 2)
+        box_crawl(vec![Url::parse("https://www.rust-lang.org").unwrap()], 1, 2).await
     });
 }
