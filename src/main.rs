@@ -94,7 +94,10 @@ async fn crawl(pages: Vec<Url>, current: u8, max: u8) -> CrawlResult {
 
             let links = get_links(&url, body);
 
-            println!("Following: {:?}", links);
+            for link in links.iter() {
+                println!("Following: {:?}", link);
+            }
+
             box_crawl(links, current + 1, max).await
         });
         tasks.push(task);
@@ -107,8 +110,17 @@ async fn crawl(pages: Vec<Url>, current: u8, max: u8) -> CrawlResult {
     Ok(())
 }
 
-fn main() -> CrawlResult {
+fn run() -> CrawlResult {
     task::block_on(async {
-        box_crawl(vec![Url::parse("https://www.rust-lang.org").unwrap()], 1, 2).await
+        box_crawl(
+            vec![Url::parse("https://www.denali.eyesonisles.com").unwrap()],
+            1,
+            2,
+        )
+        .await
     })
+}
+
+fn main() -> () {
+    run()
 }
